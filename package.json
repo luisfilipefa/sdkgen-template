@@ -1,0 +1,31 @@
+{
+  "name": "sdkgen-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "sdkgen": "sdkgen src/schemas/index.sdkgen -o src/generated/generated.ts -t typescript_nodeserver",
+    "knex:migrate:make": "knex --knexfile knexfile.ts migrate:make -x ts",
+    "knex:migrate:run": "knex --knexfile knexfile.ts migrate:latest",
+    "dev": "ts-node -r dotenv/config src/server.ts"
+  },
+  "dependencies": {
+    "@sdkgen/node-runtime": "^1.5.5",
+    "bcrypt": "^5.0.1",
+    "class-transformer": "^0.4.0",
+    "dotenv": "^10.0.0",
+    "knex": "^0.95.11",
+    "pg": "^8.7.1",
+    "ts-node": "^10.2.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/faker": "^5.5.8",
+    "@types/knex": "^0.16.1",
+    "@types/node": "^16.9.4",
+    "@types/uuid": "^8.3.1",
+    "faker": "^5.5.3",
+    "typescript": "^4.4.3"
+  }
+}

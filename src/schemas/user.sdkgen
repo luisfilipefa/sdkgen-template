@@ -1,0 +1,17 @@
+type BaseUser {
+  name: string
+  email: string
+  password: string?
+}
+
+type User {
+  ...BaseUser
+  id: string
+  createdAt: datetime
+  updatedAt: datetime
+}
+
+fn createUser(values: BaseUser): User
+fn getUser(id: string): User
+fn updatedUser(id: string, values: BaseUser): User
+fn removeUser(id: string): User
