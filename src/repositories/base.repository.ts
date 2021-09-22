@@ -42,8 +42,6 @@ export class BaseRepository<T extends BaseModel> {
       .where(condition)
       .first()) as T;
 
-    if (!item) throw new Error("Not found");
-
     return item;
   }
 
@@ -64,8 +62,6 @@ export class BaseRepository<T extends BaseModel> {
       })
       .returning("*")) as T[];
 
-    if (!updatedItem) throw new Error("Not found");
-
     return updatedItem;
   }
 
@@ -74,8 +70,6 @@ export class BaseRepository<T extends BaseModel> {
       .where({ id })
       .delete()
       .returning("*")) as T[];
-
-    if (!deleted) throw new Error("Not found");
 
     return deleted;
   }

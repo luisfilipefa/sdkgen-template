@@ -5,7 +5,12 @@ export { Fatal } from "@sdkgen/node-runtime";
 export interface BaseUser {
     name: string
     email: string
-    password: string | null
+    password: string
+}
+
+export interface BaseUserWithoutAuth {
+    name: string
+    email: string
 }
 
 export interface User {
@@ -14,14 +19,14 @@ export interface User {
     updatedAt: Date
     name: string
     email: string
-    password: string | null
+    password: string
 }
 
 export class ApiConfig<ExtraContextT> extends BaseApiConfig<ExtraContextT> {
     fn!: {
         createUser: (ctx: Context & ExtraContextT, args: {values: BaseUser}) => Promise<User>
         getUser: (ctx: Context & ExtraContextT, args: {id: string}) => Promise<User>
-        updatedUser: (ctx: Context & ExtraContextT, args: {id: string, values: BaseUser}) => Promise<User>
+        updatedUser: (ctx: Context & ExtraContextT, args: {id: string, values: BaseUserWithoutAuth}) => Promise<User>
         removeUser: (ctx: Context & ExtraContextT, args: {id: string}) => Promise<User>
     }
 
@@ -51,7 +56,7 @@ export class ApiConfig<ExtraContextT> extends BaseApiConfig<ExtraContextT> {
             updatedUser: {
                 args: {
                     id: "string",
-                    values: "BaseUser"
+                    values: "BaseUserWithoutAuth"
                 },
                 ret: "User"
             },
@@ -66,7 +71,11 @@ export class ApiConfig<ExtraContextT> extends BaseApiConfig<ExtraContextT> {
             BaseUser: {
                 name: "string",
                 email: "string",
-                password: "string?"
+                password: "string"
+            },
+            BaseUserWithoutAuth: {
+                name: "string",
+                email: "string"
             },
             User: {
                 id: "string",
@@ -74,7 +83,7 @@ export class ApiConfig<ExtraContextT> extends BaseApiConfig<ExtraContextT> {
                 updatedAt: "datetime",
                 name: "string",
                 email: "string",
-                password: "string?"
+                password: "string"
             }
         }
     } as const

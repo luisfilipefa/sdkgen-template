@@ -1,4 +1,5 @@
-import { BaseUser, User } from "../generated/generated";
+import { hashSync } from "bcrypt";
+import { BaseUser, BaseUserWithoutAuth, User } from "../generated/generated";
 import { UserRepository } from "../repositories/user.repository";
 
 export class UserService {
@@ -9,20 +10,33 @@ export class UserService {
 
     if (userExists) throw new Error("User already exists");
 
-    const dbUser = await this.repository.insert(user);
-
-    return dbUser;
+    return await this.repository.insert({
+      ...user,
+      password: hashSync(user.password, 8),
+    });
   }
 
   async get(id: string) {
-    return await this.repository.findOneBy({ id });
+    const user = await this.repository.findOneBy({ id });
+
+    if (!user) throw new Error("User not found");
+
+    return user;
   }
 
-  async update(id: string, user: BaseUser) {
+  async update(id: string, user: BaseUserWithoutAuth) {
+    const userExists = await this.repository.findOneBy({ id });
+
+    if (!userExists) throw new Error("User not found");
+
     return await this.repository.update({ id, ...user });
   }
 
   async remove(id: string) {
+    const user = await this.repository.findOneBy({ id });
+
+    if (!user) throw new Error("User not found");
+
     return await this.repository.delete(id);
   }
 }

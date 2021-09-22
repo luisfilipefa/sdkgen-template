@@ -1,7 +1,12 @@
 type BaseUser {
   name: string
   email: string
-  password: string?
+  password: string
+}
+
+type BaseUserWithoutAuth {
+  name: string
+  email: string
 }
 
 type User {
@@ -13,5 +18,5 @@ type User {
 
 fn createUser(values: BaseUser): User
 fn getUser(id: string): User
-fn updatedUser(id: string, values: BaseUser): User
+fn updatedUser(id: string, values: BaseUserWithoutAuth): User
 fn removeUser(id: string): User
